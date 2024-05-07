@@ -1,0 +1,10 @@
+.row {
+  background-color: bisque;
+  border: solid 2px;
+  border-color: rgb(58, 172, 134);
+  justify-items: flex-start;
+}
+.ul1 {
+  align-items: left;
+  width: 500px;
+}
