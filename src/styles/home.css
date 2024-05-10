@@ -1,10 +1,26 @@
-.row {
+.conatiner {
+  width: 150px;
+  border: solid;
+  border-color: aquamarine;
+  padding: 2px;
+}
+
+#list {
   background-color: bisque;
   border: solid 2px;
   border-color: rgb(58, 172, 134);
-  justify-items: flex-start;
+  width: 500px;
+  align-content: center;
 }
 .ul1 {
-  align-items: left;
-  width: 500px;
+  width: 400px;
+}
+.agregar {
+  width: 450px;
+  border: solid 2px;
+  border-color: cadetblue;
+  margin-bottom: 3px;
+}
+#add {
+  width: fit-content;
 }
