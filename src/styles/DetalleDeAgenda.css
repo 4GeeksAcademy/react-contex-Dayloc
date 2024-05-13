@@ -1,0 +1,19 @@
+#cabecera {
+  background-color: bisque;
+  font-family: "Courier New", Courier, monospace;
+  font-size: x-large;
+  font-style: inherit;
+  color: black;
+}
+#lisdeta {
+  border: solid;
+  border-color: rgb(176, 240, 240);
+  align-items: start;
+}
+.eliminar {
+  width: auto;
+  height: auto;
+  font-size: large;
+  color: rgb(244, 239, 239);
+  background-color: darkred;
+}

@@ -12,7 +12,7 @@ export const Home = () => {
   if (!agendas) return null;
 
   const validateInput = () => {
-    if (!inputValue.trim()) alert("La tarea no puede estar vacia");
+    if (!inputValue.trim()) alert("La lista no puede estar vacia");
 
     actions.postAgenda(inputValue);
     setInputValue("");
@@ -34,7 +34,9 @@ export const Home = () => {
           </div>
           <div className="col-2">
             {" "}
-            <button onClick={() => validateInput()}>guardar</button>
+            <button className="addlist" onClick={() => validateInput()}>
+              Guardar
+            </button>
           </div>
         </div>
         {agendas.map((agendas) => (

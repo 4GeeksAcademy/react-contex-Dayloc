@@ -31,8 +31,34 @@ const getState = ({ getStore, getActions, setStore }) => {
           `https://playground.4geeks.com/contact/agendas/${agendasslug}`
         );
         const detalleAgendaJson = await detalleAgenda.json();
-        console.log(detalleAgendaJson);
+        return detalleAgendaJson;
       },
+      postContacto: async (agendasslug, body) => {
+        const newContac = await fetch(
+          `https://playground.4geeks.com/contact/agendas/${agendasslug}/contacts`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+
+            body: JSON.stringify(body),
+          }
+        );
+        const newContacJson = await newContac.json();
+        
+        return newContacJson;
+      },
+      eliminarContact: async (idContact) =>{
+        const eliminarContact = await fetch (`https://playground.4geeks.com/contact/agendas/${agendasslug}/contacts/${contact_id}`,
+        {
+          method: 'DELETE'
+        }  
+        
+        )
+        return eliminarContact.ok;
+
+      }
     },
   };
 };

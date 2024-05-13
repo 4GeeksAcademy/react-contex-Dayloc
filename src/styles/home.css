@@ -16,11 +16,20 @@
   width: 400px;
 }
 .agregar {
-  width: 450px;
+  width: 350px;
   border: solid 2px;
   border-color: cadetblue;
   margin-bottom: 3px;
 }
 #add {
-  width: fit-content;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+}
+.addlist {
+  border-radius: 10%;
+  background-color: rgb(3, 125, 255);
+  color: rgb(255, 255, 255);
+  margin-left: 13px;
+  margin-bottom: 5px;
 }
