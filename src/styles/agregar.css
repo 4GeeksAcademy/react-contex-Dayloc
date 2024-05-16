@@ -2,10 +2,14 @@
   background-color: rgb(218, 248, 248);
   width: 1000px;
   margin-left: 25px;
-  
+
   border: solid;
   border-color: rgb(164, 164, 220);
 }
 #contagregar {
   display: flexbox;
+}
+.guardar {
+  margin-top: 5px;
+  background-color: rgb(61, 233, 233);
 }

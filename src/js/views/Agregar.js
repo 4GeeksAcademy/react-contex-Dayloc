@@ -1,44 +1,101 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext, useSyncExternalStore } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/agregar.css";
 
-
 export const Agregar = () => {
+  const [nameValue, setNameValue] = useState("");
+  const [telefonoValue, setTelefonoValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [addressValue, setAddressValue] = useState("");
 
-  const [inputValue, setInputValue] = useState("");
+  const { store, actions } = useContext(Context);
 
-  const [name, setName] = useState("");
-  const validateInput = () => {
-    if (!inputValue.trim()) alert("Nombre de Contacto");
-    setInputValue("");
+  const validateInputName = () => {
+    if (!inputValue.trim()) alert("Nombre de Contacto necesario");
+    setNameValue("");
   };
+  const validateInputTel = () => {
+    if (!inputValue.trim()) alert("Telefono nrcesario");
+    setTelefonoValue("");
+  };
+  const validateInputEmail = () => {
+    if (!inputValue.trim()) alert("Email Necesario");
+    setEmailValue("");
+  };
+  const validateInputAddress = () => {
+    if (!inputValue.trim()) alert("Nombre de Contacto");
+    setAddressValue("");
+  };
+  const [newContact, setNewContact] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+  const saveContact = [
+    {
+      name: nameValue,
+      phone: telefonoValue,
+      email: emailValue,
+      address: addressValue,
+    },
+  ];
+  const todos = () => {
+    setNewContact(saveContact);
 
+    setNameValue("");
+    setTelefonoValue("");
+    setEmailValue("");
+    setAddressValue("");
+  };
+  console.log(newContact);
   return (
     <div className="container text-center " id="contagregar">
       <div className="row" id="agr">
         <div className="col-3">
           <input
-            className=""
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyDown={(event) => event.key === "Enter" && validateInput()}
+            className="Name"
+            value={nameValue}
+            onChange={(event) => setNameValue(event.target.value)}
+            onKeyDown={(event) => event.key === "Enter" && validateInputName()}
             placeholder="Nombre de contacto"
           ></input>
         </div>
         <div className="col-3">
           {" "}
-          <input placeholder="Teléfono"></input>
+          <input
+            className="telefono"
+            value={telefonoValue}
+            onChange={(event) => setTelefonoValue(event.target.value)}
+            onKeyDown={(event) => event.key === "Enter" && validateInputTel()}
+            placeholder="Teléfono"
+          ></input>
         </div>
         <div className="col-3">
-          <input placeholder="Email"></input>
+          <input
+            className="email"
+            value={emailValue}
+            onChange={(event) => setEmailValue(event.target.value)}
+            onKeyDown={(event) => event.key === "Enter" && validateInputEmail()}
+            placeholder="Email"
+          ></input>
         </div>
         <div className="col-3">
-          <input placeholder="Dirección"></input>
+          <input
+            className="direccion"
+            value={addressValue}
+            onChange={(event) => setAddressValue(event.target.value)}
+            onKeyDown={(event) =>
+              event.key === "Enter" && validateInputAddress()
+            }
+            placeholder="Dirección"
+          ></input>
         </div>
       </div>
 
-      <button className="mt-5">GuardarContacto</button>
-      <div>Volver a la agenda</div>
+      <button className="guardar" onClick={() => todos()}>
+        Guardar
+      </button>
     </div>
   );
 };

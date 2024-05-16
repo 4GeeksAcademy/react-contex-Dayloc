@@ -21,27 +21,19 @@ const Detalle = () => {
       setContact("");
       return;
     }
-    setContact("");
-    const objectNewContact = {
-      name: contac,
-      phone: "",
-      email: "",
-      address: "",
-    };
-    await actions
-      .postContacto(agendasslug, objectNewContact)
-      .then((respContact) => {
-        const addContacto = {
-          ...detalleAgenda,
-          agendas: [...detalleAgenda.agendas, respContact],
-        };
-        setDetalleAgenda(addContacto);
-      });
+
+    await actions.postContacto(agendasslug).then((respContact) => {
+      const addContacto = {
+        ...detalleAgenda,
+        agendas: [...detalleAgenda.agendas, respContact],
+      };
+      setDetalleAgenda(addContacto);
+    });
     setContact("");
   };
 
   const eliminarContact = (idContact) => {
-    actions.eliminarContact(idContact).then((resp) => {
+    actions.eliminarContacto(idContact).then((resp) => {
       if (resp) {
         const newContac = {
           ...contac,
@@ -54,8 +46,11 @@ const Detalle = () => {
     });
   };
   if (!(detalleAgenda && detalleAgenda.contacts)) return null;
-  console.log(detalleAgenda.contacts);
 
+  const getContacs = detalleAgenda.contacts.map((item) => {
+    return item.name;
+  });
+ 
   return (
     <div className="text-center">
       <h1>Contactos de {agendasslug}</h1>
@@ -84,7 +79,7 @@ const Detalle = () => {
             <div className="col-2">{item.address} </div>
             <div className="col-2 text-end">
               <button
-                className="eliminar"
+                className="eliminar "
                 onClick={() => {
                   eliminarContact(item.id);
                 }}
@@ -95,17 +90,7 @@ const Detalle = () => {
           </div>
         ))}
 
-        <input
-          className="mb-2 mt-3"
-          value={contac}
-          placeholder="Agregar Contacto"
-          onChange={(e) => setContact(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && validateInput()}
-        />
-        <button className="bg-danger" onClick={() => validateInput()}>
-          Guardar
-        </button>
-        <Link className="ms-5 mt-3" to="/agregar/: id">
+        <Link className="ms-5 mt-3" to="/agregar/:id">
           AgregarContacto
         </Link>
       </div>

@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {},
+
     actions: {
       getListsContact: async () => {
         const agendas = await fetch(
@@ -9,9 +10,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const agendasJson = await agendas.json();
         setStore({ agendas: agendasJson.agendas });
       },
-      postAgenda: async (nombreAgenda) => {
+      postAgenda: async (agendasslug) => {
         const newAgenda = await fetch(
-          `https://playground.4geeks.com/contact/agendas/${nombreAgenda}`,
+          `https://playground.4geeks.com/contact/agendas/${agendasslug}`,
           {
             method: "POST",
           }
@@ -31,9 +32,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           `https://playground.4geeks.com/contact/agendas/${agendasslug}`
         );
         const detalleAgendaJson = await detalleAgenda.json();
+
         return detalleAgendaJson;
       },
-      postContacto: async (agendasslug, body) => {
+
+      postContacto: async (agendasslug) => {
         const newContac = await fetch(
           `https://playground.4geeks.com/contact/agendas/${agendasslug}/contacts`,
           {
@@ -42,23 +45,23 @@ const getState = ({ getStore, getActions, setStore }) => {
               "content-type": "application/json",
             },
 
-            body: JSON.stringify(body),
+            body: JSON.stringify(newContac),
           }
         );
         const newContacJson = await newContac.json();
-        
+
         return newContacJson;
       },
-      eliminarContact: async (idContact) =>{
-        const eliminarContact = await fetch (`https://playground.4geeks.com/contact/agendas/${agendasslug}/contacts/${contact_id}`,
-        {
-          method: 'DELETE'
-        }  
-        
-        )
-        return eliminarContact.ok;
 
-      }
+      eliminarContacto: async (agendasslug, id) => {
+        const eliminarContact = await fetch(
+          `https://playground.4geeks.com/contact/agendas/${agendasslug}/contacts/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        return eliminarContact.ok;
+      },
     },
   };
 };
