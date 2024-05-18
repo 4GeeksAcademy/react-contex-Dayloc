@@ -1,4 +1,4 @@
-import React, { useState, useContext, useSyncExternalStore } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/agregar.css";
 
@@ -8,22 +8,20 @@ export const Agregar = () => {
   const [emailValue, setEmailValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
 
-  const { store, actions } = useContext(Context);
-
   const validateInputName = () => {
-    if (!inputValue.trim()) alert("Nombre de Contacto necesario");
+    if (!validateInputName.trim()) alert("Nombre de Contacto necesario");
     setNameValue("");
   };
   const validateInputTel = () => {
-    if (!inputValue.trim()) alert("Telefono nrcesario");
+    if (!validateInputTel.trim()) alert("Telefono nrcesario");
     setTelefonoValue("");
   };
   const validateInputEmail = () => {
-    if (!inputValue.trim()) alert("Email Necesario");
+    if (!validateInputEmail.trim()) alert("Email Necesario");
     setEmailValue("");
   };
   const validateInputAddress = () => {
-    if (!inputValue.trim()) alert("Nombre de Contacto");
+    if (!validateInputAddress.trim()) alert("Dirección");
     setAddressValue("");
   };
   const [newContact, setNewContact] = useState({
@@ -47,8 +45,9 @@ export const Agregar = () => {
     setTelefonoValue("");
     setEmailValue("");
     setAddressValue("");
+    //setStore({ contactos: todos });
   };
-  console.log(newContact);
+  console.log("newContact", newContact);
   return (
     <div className="container text-center " id="contagregar">
       <div className="row" id="agr">

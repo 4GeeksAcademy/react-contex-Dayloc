@@ -17,3 +17,11 @@
   color: rgb(244, 239, 239);
   background-color: darkred;
 }
+#filcont {
+  border: solid;
+  border-color: rgb(176, 240, 240);
+  align-items: start;
+}
+.guardar {
+  margin-left: 25px;
+}
