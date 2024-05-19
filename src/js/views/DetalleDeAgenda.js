@@ -10,12 +10,13 @@ const Detalle = () => {
   const [detalleAgenda, setDetalleAgenda] = useState(null);
   const fetchData = async () => await actions.getAgenda(agendasslug);
   const [contac, setContact] = useState("");
+  const { store } = useContext(Context);
 
   const [nameValue, setNameValue] = useState("");
   const [telefonoValue, setTelefonoValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
-  const [store, setStore] = useState();
+
   const validateInputName = () => {
     if (!validateInputName.trim()) alert("Nombre de Contacto necesario");
     setNameValue("");
@@ -59,14 +60,10 @@ const Detalle = () => {
 
   const agregarContacto = () => {
     detalleAgenda.contacts.push(newContact);
-    actions.postContacto({
-      name: nameValue,
-      phone: telefonoValue,
-      email: emailValue,
-      address: addressValue,
-    });
+    actions.postContacto({newContact});
+   
 
-    console.log(detalleAgenda);
+
   };
 
   const eliminarContact = () => {};
@@ -79,7 +76,7 @@ const Detalle = () => {
     }
     return detalleAgenda.contacs;
   });
-  console.log(detalleAgenda.contacts);
+  console.log(store);
   return (
     <div className="text-center">
       <h1>Contactos de {agendasslug}</h1>

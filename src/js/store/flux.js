@@ -36,21 +36,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         return detalleAgendaJson;
       },
 
-      postContacto: async () => {
+      postContacto: async (id, body) => {
         const newContact = await fetch(
-          `https://playground.4geeks.com/contact/agendas/Yumar/contacts`,
+          `https://playground.4geeks.com/contact/agendas/Dayloc/${id}`,
           {
             method: "POST",
             headers: {
               "content-type": "application/json",
             },
 
-            body: JSON.stringify({
-              name: "",
-              phone: "",
-              email: "",
-              address: "",
-            }),
+            body: body,
           }
         );
         const newContactJson = await newContact.json();
