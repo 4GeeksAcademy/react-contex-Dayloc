@@ -8,7 +8,6 @@
 #lisdeta {
   border: solid;
   border-color: rgb(176, 240, 240);
-  align-items: start;
 }
 .eliminar {
   width: auto;
@@ -23,5 +22,17 @@
   align-items: start;
 }
 .guardar {
+  align-items: center;
   margin-left: 25px;
+}
+#agr {
+  margin-left: 0px;
+  padding: 3px;
+}
+#contagregar {
+  margin-left: 125px;
+}
+#btnsa {
+  
+  width: 350px;
 }
