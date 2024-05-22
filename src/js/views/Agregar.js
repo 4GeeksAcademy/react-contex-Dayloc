@@ -45,7 +45,7 @@ export const Agregar = () => {
     setTelefonoValue("");
     setEmailValue("");
     setAddressValue("");
-    //setStore({ contactos: todos });
+  
   };
   console.log("newContact", newContact);
   return (

@@ -1,62 +1,63 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
-import { useParams } from "react-router";
-import "../../styles/DetalleDeAgenda.css";
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 const Detalle = () => {
   const { actions, store } = useContext(Context);
   const { agendasslug } = useParams();
   const [detalleAgenda, setDetalleAgenda] = useState(null);
-  const fetchData = async () => await actions.getAgenda(agendasslug);
-  const [contact, setContact] = useState("");
+
+  const fetchData = async () => {
+    const resp = await actions.getAgenda(agendasslug);
+    setDetalleAgenda(resp);
+  };
+
   const [nameValue, setNameValue] = useState("");
   const [telefonoValue, setTelefonoValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [addressValue, setAddressValue] = useState("");
 
-  const validateInputName = () => {
-    if (!validateInputName.trim()) alert("Nombre de Contacto necesario");
-    setNameValue("");
+  const validateInputName = (name) => /^[a-zA-Z\s]+$/.test(name);
+  const validateInputTel = (tel) => /^[0-9]+$/.test(tel);
+
+  const handleNameChange = (event) => {
+    const value = event.target.value;
+    if (validateInputName(value) || value === "") {
+      setNameValue(value);
+    }
   };
-  const validateInputTel = () => {
-    if (!validateInputTel.trim()) alert("Telefono necesario");
-    setTelefonoValue("");
-  };
-  const validateInputEmail = () => {
-    if (!validateInputEmail.trim()) alert("Email Necesario");
-    setEmailValue("");
-  };
-  const validateInputAddress = () => {
-    if (!validateInputAddress.trim()) alert("Dirección");
-    setAddressValue("");
-  };
-  const [newContact, setNewContact] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    address: "",
-  });
-  const saveContact = {
-    name: nameValue,
-    phone: telefonoValue,
-    email: emailValue,
-    address: addressValue,
+
+  const handleTelChange = (event) => {
+    const value = event.target.value;
+    if (validateInputTel(value) || value === "") {
+      setTelefonoValue(value);
+    }
   };
 
   const save = () => {
-    setNewContact(saveContact);
+    const newContact = {
+      name: nameValue,
+      phone: telefonoValue,
+      email: emailValue,
+      address: addressValue,
+    };
+    setNewContact(newContact);
   };
 
   useEffect(() => {
-    fetchData().then((resp) => setDetalleAgenda(resp));
+    fetchData();
   }, []);
 
   const agregarContacto = () => {
+    const newContact = {
+      name: nameValue,
+      phone: telefonoValue,
+      email: emailValue,
+      address: addressValue,
+    };
     detalleAgenda.contacts.push(newContact);
-
     actions.postContacto(newContact);
-    setContact();
+
     setNameValue("");
     setTelefonoValue("");
     setEmailValue("");
@@ -64,6 +65,7 @@ const Detalle = () => {
   };
 
   if (!(detalleAgenda && detalleAgenda.contacts)) return null;
+
   const eliminarContacto = async (id) => {
     await actions.deleteContact(id);
     setDetalleAgenda({
@@ -72,110 +74,89 @@ const Detalle = () => {
     });
   };
 
-  console.log(store);
   return (
-    <div className="text-center">
+    <div className="container text-center">
       <h1>Contactos de {agendasslug}</h1>
 
-      <div className="container">
-        <div className="row mb-3" id="cabecera">
+      <div className="container mt-3">
+        <div className="row mb-3 justify-content-center ">
+          <div className="col-3">
+            <input
+              className="form-control"
+              value={nameValue}
+              onChange={handleNameChange}
+              placeholder="Nombre de contacto"
+            />
+          </div>
+          <div className="col-3">
+            <input
+              className="form-control"
+              value={telefonoValue}
+              onChange={handleTelChange}
+              placeholder="Teléfono"
+            />
+          </div>
+          <div className="col-3">
+            <input
+              className="form-control"
+              value={emailValue}
+              onChange={(event) => setEmailValue(event.target.value)}
+              placeholder="Email"
+            />
+          </div>
+          <div className="col-3">
+            <input
+              className="form-control"
+              value={addressValue}
+              onChange={(event) => setAddressValue(event.target.value)}
+              placeholder="Dirección"
+            />
+          </div>
+        </div>
+
+        <button className="btn btn-primary" onClick={agregarContacto}>
+          Aceptar
+        </button>
+      </div>
+
+      <div className="container mt-4">
+        <div className="row mb-3 justify-content-center bg-info">
           <div className="col-3">
             <h2>Nombre</h2>
           </div>
           <div className="col-3">
-            <h2>Telefono</h2>
+            <h2>Teléfono</h2>
           </div>
           <div className="col-3">
             <h2>Email</h2>
           </div>
           <div className="col-3">
             <h2>Dirección</h2>
-            <i className="bi bi-trash"></i>
           </div>
         </div>
-
         {detalleAgenda.contacts.map((item) => (
-          <div className="row " key={item.id} id="lisdeta">
-            <div className="col-3"> {item.name}</div>
+          <div className="row mt-4 justify-content-center" key={item.id}>
+            <div className="col-3">{item.name}</div>
             <div className="col-2">{item.phone}</div>
             <div className="col-3">{item.email}</div>
-            <div className="col-2">{item.address} </div>
+            <div className="col-2">{item.address}</div>
             <div className="col-2 text-end">
               <button
-                className="eliminar "
+                className="btn btn-danger"
                 onClick={() => {
                   eliminarContacto(item.id);
                 }}
               >
-                X{" "}
+                X
               </button>
             </div>
           </div>
         ))}
-        <div className=" text-center mt-3 " id="contagregar">
-          <div className="row mb-3" id="agr">
-            <div className="col-3">
-              <input
-                className="Name"
-                value={nameValue}
-                onChange={(event) => setNameValue(event.target.value)}
-                onKeyDown={(event) =>
-                  event.key === "Enter" && validateInputName()
-                }
-                placeholder="Nombre de contacto"
-              ></input>
-            </div>
-            <div className="col-3">
-              {" "}
-              <input
-                className="telefono"
-                value={telefonoValue}
-                onChange={(event) => setTelefonoValue(event.target.value)}
-                onKeyDown={(event) =>
-                  event.key === "Enter" && validateInputTel()
-                }
-                placeholder="Teléfono"
-              ></input>
-            </div>
-            <div className="col-3">
-              <input
-                className="email"
-                value={emailValue}
-                onChange={(event) => setEmailValue(event.target.value)}
-                onKeyDown={(event) =>
-                  event.key === "Enter" && validateInputEmail()
-                }
-                placeholder="Email"
-              ></input>
-            </div>
-            <div className="col-3">
-              <input
-                className="direccion"
-                value={addressValue}
-                onChange={(event) => setAddressValue(event.target.value)}
-                onKeyDown={(event) =>
-                  event.key === "Enter" && validateInputAddress()
-                }
-                placeholder="Dirección"
-              ></input>
-            </div>
-          </div>
-
-          
-            <button className="guardar" onClick={() => save()}>
-              Save
-            </button>
-          
-        
-            <button className="guardar" onClick={() => agregarContacto()}>
-              Acceptar
-            </button>
-         
-        </div>
-        <Link className="ms-5 mt-3" to="/">
-          Agendas
-        </Link>
       </div>
+
+      <Link className="btn btn-secondary mt-3" to="/">
+        Agendas
+      </Link>
     </div>
   );
 };
