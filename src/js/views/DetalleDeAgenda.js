@@ -34,16 +34,6 @@ const Detalle = () => {
     }
   };
 
-  const save = () => {
-    const newContact = {
-      name: nameValue,
-      phone: telefonoValue,
-      email: emailValue,
-      address: addressValue,
-    };
-    setNewContact(newContact);
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
