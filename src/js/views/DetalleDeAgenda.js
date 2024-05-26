@@ -6,6 +6,7 @@ const Detalle = () => {
   const { actions, store } = useContext(Context);
   const { agendasslug } = useParams();
   const [detalleAgenda, setDetalleAgenda] = useState(null);
+  const [editingContact, setEditingContact] = useState(null);
 
   const fetchData = async () => {
     const resp = await actions.getAgenda(agendasslug);
@@ -54,7 +55,34 @@ const Detalle = () => {
     setAddressValue("");
   };
 
-  if (!(detalleAgenda && detalleAgenda.contacts)) return null;
+  const editarContacto = () => {
+    const updatedContacts = detalleAgenda.contacts.map((contact) =>
+      contact.id === editingContact.id
+        ? {
+            ...contact,
+            name: nameValue,
+            phone: telefonoValue,
+            email: emailValue,
+            address: addressValue,
+          }
+        : contact
+    );
+
+    actions.updateContact(editingContact.id, {
+      name: nameValue,
+      phone: telefonoValue,
+      email: emailValue,
+      address: addressValue,
+    });
+
+    setDetalleAgenda({ ...detalleAgenda, contacts: updatedContacts });
+    setEditingContact(null);
+
+    setNameValue("");
+    setTelefonoValue("");
+    setEmailValue("");
+    setAddressValue("");
+  };
 
   const eliminarContacto = async (id) => {
     await actions.deleteContact(id);
@@ -63,6 +91,16 @@ const Detalle = () => {
       contacts: detalleAgenda.contacts.filter((contact) => contact.id !== id),
     });
   };
+
+  const startEditing = (contact) => {
+    setEditingContact(contact);
+    setNameValue(contact.name);
+    setTelefonoValue(contact.phone);
+    setEmailValue(contact.email);
+    setAddressValue(contact.address);
+  };
+
+  if (!(detalleAgenda && detalleAgenda.contacts)) return null;
 
   return (
     <div className="container text-center">
@@ -104,8 +142,11 @@ const Detalle = () => {
           </div>
         </div>
 
-        <button className="btn btn-primary" onClick={agregarContacto}>
-          Aceptar
+        <button
+          className="btn btn-primary"
+          onClick={editingContact ? editarContacto : agregarContacto}
+        >
+          {editingContact ? "Actualizar" : "Aceptar"}
         </button>
       </div>
 
@@ -130,12 +171,18 @@ const Detalle = () => {
             <div className="col-2">{item.phone}</div>
             <div className="col-3">{item.email}</div>
             <div className="col-2">{item.address}</div>
-            <div className="col-2 text-end">
+            <div className="col-1">
+              <button
+                className="btn btn-warning"
+                onClick={() => startEditing(item)}
+              >
+                Editar
+              </button>
+            </div>
+            <div className="col-1 text-end">
               <button
                 className="btn btn-danger"
-                onClick={() => {
-                  eliminarContacto(item.id);
-                }}
+                onClick={() => eliminarContacto(item.id)}
               >
                 X
               </button>
